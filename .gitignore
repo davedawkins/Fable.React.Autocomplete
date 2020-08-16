@@ -194,8 +194,6 @@ docs/tools/FSharp.Formatting.svclog
 .ionide.debug
 *.bak
 project.lock.json
-bundle.js
-bundle.js.map
 dist/*
 !dist/index.html
 
