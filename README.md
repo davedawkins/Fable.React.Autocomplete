@@ -54,3 +54,19 @@ There are two basic functions available: `autocompleteBasic` and `autocomplete`.
 Use `autocompleteBasic` for the simplest experience, when all you need is to choose from a list of strings. You supply the list of strings, the current value and a dispatch function, as a `record`.
 
 Use `autocomplete` for access to the complete API supplied by [`react-autocomplete`](). Here you supply a list of DU options
+
+### autocompleteBasic
+
+```
+type BasicProps = {
+    Items           : string list
+    Model           : string
+    Dispatch        : string -> unit
+}
+```
+
+| BasicProp   | Description                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------ |
+| Items       | List of strings to be offered to user                                                      |
+| Model       | The current value of the selection                                                         |
+| Dispatch    | Function to call when user makes a selection. Also called while typing into input element  |
