@@ -200,3 +200,4 @@ dist/*
 !dist/index.html
 
 .ionide
+package-lock.json

@@ -47,3 +47,10 @@ let render state dispatch =
             Dispatch = UpdateSelectedItem >> dispatch }
 
 ```
+## Documentation
+
+There are two basic functions available: `autocompleteBasic` and `autocomplete`.
+
+Use `autocompleteBasic` for the simplest experience, when all you need is to choose from a list of strings. You supply the list of strings, the current value and a dispatch function, as a `record`.
+
+Use `autocomplete` for access to the complete API supplied by [`react-autocomplete`](). Here you supply a list of DU options
