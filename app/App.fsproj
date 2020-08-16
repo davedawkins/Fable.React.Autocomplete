@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Common.fs" />
+
+    <!-- Flatpickr -->
+    <Compile Include="Autocomplete/Types.fs" />
+    <Compile Include="Autocomplete/View.fs" />
+    <Compile Include="Autocomplete/State.fs" />
+    
+    <Compile Include="Types.fs" />
+    <Compile Include="View.fs" />
+    <Compile Include="State.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\Fable.React.Autocomplete\Fable.React.Autocomplete.fsproj" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>
