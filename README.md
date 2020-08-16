@@ -1,5 +1,6 @@
 # Fable.React.Autocomplete [![Build Status](https://travis-ci.org/DaveDawkins/Fable.React.Autocomplete.svg?branch=master)](https://travis-ci.org/DaveDawkins/Fable.React.Autocomplete) [![Build status](https://ci.appveyor.com/api/projects/status/9ihe9vmw3k37u72r?svg=true)](https://ci.appveyor.com/project/DaveDawkins/fable-react-autocomplete) [![Nuget](https://img.shields.io/nuget/v/Fable.React.Autocomplete.svg?maxAge=0&colorB=brightgreen)](https://www.nuget.org/packages/Fable.React.Autocomplete)
 
+(Very close to initial release - working on documentation and few kinks in code before pushing first pkg - Aug 16th 2020)
 
 A complete binding for [react-autocomplete](https://github.com/reactjs/react-autocomplete) that is ready to use within [Elmish](https://github.com/fable-elmish/elmish) applications
 
@@ -19,7 +20,7 @@ There are two basic functions available: `autocompleteBasic` and `autocomplete`.
 
 Use `autocompleteBasic` for the simplest experience, when all you need is to choose from a list of strings. You supply the list of strings, the current value and a dispatch function, as a `record`.
 
-Use `autocomplete` for access to the complete API supplied by [`react-autocomplete`](). Here you supply a list of DU options
+Use `autocomplete` for access to the complete API supplied by [`react-autocomplete`](). Here you supply a list of option values to configure the component. Use this version if your data is more complex than a list of strings, or you wish to tweak styling or event handling.
 
 [Live Demo with examples](https://davedawkins.github.io/Fable.React.Autocomplete/)
 
@@ -162,5 +163,5 @@ explanation of these configuration items. The following table discusses any F# a
 - react-autocomplete doesn't itself appear to be maintained
 - Working around an issue in FunctionComponent that appears to lose F# metadata from properties
 passed through ReactJS (issue logged)
-- menuStyle needs ZIndex=1 (or higher) to ensure the menu appears above other Elmish components. T
+- menuStyle needs ZIndex=1 (or higher) to ensure the menu appears above other Elmish components. 
 - The design of `AutoCompleteProps` is heavily influenced on being able to pass through to JS with as little processing as possible, while trying to maintain a useful degree of type safety. I wanted `InputProps` to be a list of HTMLProp, but cannot see yet how to convert that to the POJO that `react-autocomplete` wants, so for now it's an `obj` :-( . You'll see a mix of lists and arrays. I prefer lists by default, but use arrays when it makes it "easier" to pass through to `react-autocomplete`
