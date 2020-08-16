@@ -23,21 +23,9 @@ Use `autocomplete` for access to the complete API supplied by [`react-autocomple
 
 [Live Demo with examples](https://davedawkins.github.io/Fable.React.Autocomplete/)
 
-### autocompleteBasic
+### Autocomplete.autocompleteBasic
 
-```fs
-type BasicProps = {
-    Items           : string list
-    Model           : string
-    Dispatch        : string -> unit
-}
-```
-
-| BasicProp   | Description                                                                                |
-| ----------- | ------------------------------------------------------------------------------------------ |
-| Items       | List of strings to be offered to user                                                      |
-| Model       | The current value of the selection                                                         |
-| Dispatch    | Function to call when user makes a selection. Also called while typing into input element  |
+#### Example
 
 ```fs
 type State = { SelectedItem : string }
@@ -70,56 +58,26 @@ let render state dispatch =
 
 ```
 
-## autocomplete
+The argument to `autocompleteBasic` is a record of type `BasicProps`:
 
 ```fs
-type AutoCompleteProps<'Item> = 
-  | GetItemValue of ('Item -> string)
-  | Items of 'Item array
-  | RenderItem of ('Item -> bool -> ReactElement)
-  | AutoHighlight of bool
-  | InputProps of obj
-  | IsItemSelectable of ('Item -> bool)
-  | MenuStyle of CSSProp list
-  | OnChange of (Browser.Types.Event -> string -> unit)
-  | OnMenuVisibilityChange of (bool -> unit)
-  | OnSelect of (string -> unit)
-  | Open of bool
-  | RenderInput of (obj -> ReactElement)
-  | RenderMenu of ('Item array -> string -> obj -> ReactElement)
-  | SelectOnBlur of bool
-  | ShouldItemRender of ('Item -> string -> bool)
-  | SortItems of ('Item -> 'Item -> string -> int) // Compare function for Array.sort. string argument is current value
-  | Value of string
-  | WrapperProps of obj
-  | WrapperStyle of obj
+type BasicProps = {
+    Items           : string list
+    Model           : string
+    Dispatch        : string -> unit
+}
 ```
 
-See original documentation for [react-autocomplete](https://github.com/reactjs/react-autocomplete) for a detailed
-explanation of these configuration items.
+| BasicProp   | Description                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------ |
+| Items       | List of strings to be offered to user                                                      |
+| Model       | The current value of the selection                                                         |
+| Dispatch    | Function to call when user makes a selection. Also called while typing into input element  |
 
-| AutoCompleteProp | Description                                                                                |
-| ---------------- | ------------------------------------------------------------------------------------------ |
-| GetItemValue | Return the string value of the given `item` record |
-| Items | Array of `item` records |
-| RenderItem | Render `item` as a `ReactElement`. Second argument is `true` if `item` should be highlighted |
-| AutoHighlight |  |
-| InputProps | |
-| IsItemSelectable | |
-| MenuStyle | |
-| OnChange | |
-| OnMenuVisibilityChange | |
-| OnSelect | |
-| Open | |
-| RenderInput | |
-| RenderMenu | |
-| SelectOnBlur | |
-| ShouldItemRender | |
-| SortItems | |
-| Value | |
-| WrapperProps | |
-| WrapperStyle | |
 
+### Autocomplete.autocomplete
+
+#### Example
 ```fs
 let render state dispatch = 
     AutoComplete.autocomplete [
@@ -147,14 +105,62 @@ let render state dispatch =
         OnChange(fun e v -> v |> UpdateSelectedItem |> dispatch)
         InputProps {| ``class`` = "input is-primary" |}
     ]
-
 ```
+
+The argument to `autocomplete` is a `list` of `AutoCompleteProps<'Item>`. The generic type argument `'Item` allows you to show an array of any record type.
+
+```fs
+type AutoCompleteProps<'Item> = 
+  | GetItemValue of ('Item -> string)
+  | Items of 'Item array
+  | RenderItem of ('Item -> bool -> ReactElement)
+  | AutoHighlight of bool
+  | InputProps of obj
+  | IsItemSelectable of ('Item -> bool)
+  | MenuStyle of CSSProp list
+  | OnChange of (Browser.Types.Event -> string -> unit)
+  | OnMenuVisibilityChange of (bool -> unit)
+  | OnSelect of (string -> unit)
+  | Open of bool
+  | RenderInput of (obj -> ReactElement)
+  | RenderMenu of ('Item array -> string -> obj -> ReactElement)
+  | SelectOnBlur of bool
+  | ShouldItemRender of ('Item -> string -> bool)
+  | SortItems of ('Item -> 'Item -> string -> int)
+  | Value of string
+  | WrapperProps of obj
+  | WrapperStyle of obj
+```
+
+See original documentation for [react-autocomplete](https://github.com/reactjs/react-autocomplete) for a detailed
+explanation of these configuration items. The following table discusses any F# aspects of their binding implementations.
+
+| AutoCompleteProp | Description                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------ |
+| GetItemValue | Return the string value of the given `item` record |
+| Items | Array of `item` records |
+| RenderItem | Render `item` as a `ReactElement`. Second argument is `true` if `item` should be highlighted |
+| AutoHighlight |  |
+| InputProps | Properties for the <input> element. You'll need to pass a `{| ... |}` record for this. |
+| IsItemSelectable | |
+| MenuStyle | |
+| OnChange | |
+| OnMenuVisibilityChange | |
+| OnSelect | |
+| Open | |
+| RenderInput | |
+| RenderMenu | |
+| SelectOnBlur | |
+| ShouldItemRender | |
+| SortItems |  Compare function for Array.sort. string argument is current value |
+| Value | |
+| WrapperProps | You'll need to pass a `{| ... |}` record for this. |
+| WrapperStyle | This should be `CSSProp list` but is currently `obj`, so pass `{| ... |}` |
+
 
 ## Issues
 - react-autocomplete doesn't itself appear to be maintained
 - Working around an issue in FunctionComponent that appears to lose F# metadata from properties
 passed through ReactJS (issue logged)
-- menuStyle needs ZIndex=1 (or higher) to ensure the menu appears above other Elmish components. This is being addded by this binding automatically for now.
-- menuStyle will currently be overwritten if passed 
+- menuStyle needs ZIndex=1 (or higher) to ensure the menu appears above other Elmish components. T
 - The design of `AutoCompleteProps` is heavily influenced on being able to pass through to JS with as little processing as possible, while trying to maintain a useful degree of type safety. I wanted `InputProps` to be a list of HTMLProp, but cannot see yet how to convert that to the POJO that `react-autocomplete` wants, so for now it's an `obj` :-( . You'll see a mix of lists and arrays. I prefer lists by default, but use arrays when it makes it "easier" to pass through to `react-autocomplete`
-- This is my first F# project, so it's likely to be non-idiomatic. I have tried to follow existing examples and guides.
