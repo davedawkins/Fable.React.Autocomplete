@@ -141,7 +141,7 @@ explanation of these configuration items. The following table discusses any F# a
 | Items | Array of `item` records |
 | RenderItem | Render `item` as a `ReactElement`. Second argument is `true` if `item` should be highlighted |
 | AutoHighlight |  |
-| InputProps | Properties for the <input> element. You'll need to pass a `{| ... |}` record for this. |
+| InputProps | Properties for the <input> element. You'll need to pass an anonymous record for this. |
 | IsItemSelectable | |
 | MenuStyle | |
 | OnChange | |
@@ -154,8 +154,8 @@ explanation of these configuration items. The following table discusses any F# a
 | ShouldItemRender | |
 | SortItems |  Compare function for Array.sort. string argument is current value |
 | Value | |
-| WrapperProps | You'll need to pass a `{| ... |}` record for this. |
-| WrapperStyle | This should be `CSSProp list` but is currently `obj`, so pass `{| ... |}` |
+| WrapperProps | You'll need to pass an anonymous record for this. |
+| WrapperStyle | This should be `CSSProp list` but is currently `obj`, so pass an anonymous record |
 
 
 ## Issues
