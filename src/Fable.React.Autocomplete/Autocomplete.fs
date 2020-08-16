@@ -44,7 +44,7 @@ let private _ac<'Item> (props : AutoCompleteProps<'Item> list) =
 
     propsObj?menuStyle <- keyValueList CaseRules.LowerFirst defaultMenuStyle
 
-    System.Console.WriteLine( propsObj )
+//    System.Console.WriteLine( propsObj )
 
     ofImport "default" "react-autocomplete" propsObj []
 
