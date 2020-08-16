@@ -13,9 +13,31 @@ paket add Fable.React.Autocomplete --project /path/to/Project.fsproj
 npm install autocomplete react-autocomplete --save
 ```
 
-## Usage 
+## Documentation
+
+There are two basic functions available: `autocompleteBasic` and `autocomplete`.
+
+Use `autocompleteBasic` for the simplest experience, when all you need is to choose from a list of strings. You supply the list of strings, the current value and a dispatch function, as a `record`.
+
+Use `autocomplete` for access to the complete API supplied by [`react-autocomplete`](). Here you supply a list of DU options
 
 [Live Demo with examples](https://davedawkins.github.io/Fable.React.Autocomplete/)
+
+### autocompleteBasic
+
+```fs
+type BasicProps = {
+    Items           : string list
+    Model           : string
+    Dispatch        : string -> unit
+}
+```
+
+| BasicProp   | Description                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------ |
+| Items       | List of strings to be offered to user                                                      |
+| Model       | The current value of the selection                                                         |
+| Dispatch    | Function to call when user makes a selection. Also called while typing into input element  |
 
 ```fs
 type State = { SelectedItem : string }
@@ -47,26 +69,3 @@ let render state dispatch =
             Dispatch = UpdateSelectedItem >> dispatch }
 
 ```
-## Documentation
-
-There are two basic functions available: `autocompleteBasic` and `autocomplete`.
-
-Use `autocompleteBasic` for the simplest experience, when all you need is to choose from a list of strings. You supply the list of strings, the current value and a dispatch function, as a `record`.
-
-Use `autocomplete` for access to the complete API supplied by [`react-autocomplete`](). Here you supply a list of DU options
-
-### autocompleteBasic
-
-```
-type BasicProps = {
-    Items           : string list
-    Model           : string
-    Dispatch        : string -> unit
-}
-```
-
-| BasicProp   | Description                                                                                |
-| ----------- | ------------------------------------------------------------------------------------------ |
-| Items       | List of strings to be offered to user                                                      |
-| Model       | The current value of the selection                                                         |
-| Dispatch    | Function to call when user makes a selection. Also called while typing into input element  |
