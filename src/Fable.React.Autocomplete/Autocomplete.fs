@@ -35,8 +35,6 @@ type AutoCompleteProps<'Item> =
   | WrapperProps of obj
   | WrapperStyle of obj
 
-let tmp = {| a = 10 |}
-
 // Default menu style from reactjs-autocomplete with addition of ZIndex to bring menu to front. Otherwise
 // seems to be buried under other components
 let DefaultMenuStyle = [

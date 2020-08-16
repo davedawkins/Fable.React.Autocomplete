@@ -74,30 +74,51 @@ let render state dispatch =
 
 ```fs
 type AutoCompleteProps<'Item> = 
+  | GetItemValue of ('Item -> string)
   | Items of 'Item array
   | RenderItem of ('Item -> bool -> ReactElement)
-  | Value of string
-  | GetItemValue of ('Item -> string)
-  | OnChange of (Browser.Types.Event -> string -> unit)
-  | OnSelect of (string -> unit)
-  | MenuStyle of CSSProp list
-  | ShouldItemRender of ('Item -> string -> bool)
+  | AutoHighlight of bool
   | InputProps of obj
+  | IsItemSelectable of ('Item -> bool)
+  | MenuStyle of CSSProp list
+  | OnChange of (Browser.Types.Event -> string -> unit)
+  | OnMenuVisibilityChange of (bool -> unit)
+  | OnSelect of (string -> unit)
+  | Open of bool
+  | RenderInput of (obj -> ReactElement)
+  | RenderMenu of ('Item array -> string -> obj -> ReactElement)
+  | SelectOnBlur of bool
+  | ShouldItemRender of ('Item -> string -> bool)
+  | SortItems of ('Item -> 'Item -> string -> int) // Compare function for Array.sort. string argument is current value
+  | Value of string
+  | WrapperProps of obj
+  | WrapperStyle of obj
 ```
+
+See original documentation for [react-autocomplete](https://github.com/reactjs/react-autocomplete) for a detailed
+explanation of these configuration items.
 
 | AutoCompleteProp | Description                                                                                |
 | ---------------- | ------------------------------------------------------------------------------------------ |
-| Items |  |
-| RenderItem | |
-| Value | |
-| GetItemValue | |
-| OnChange | |
-| OnSelect | |
+| GetItemValue | Return the string value of the given `item` record |
+| Items | Array of `item` records |
+| RenderItem | Render `item` as a `ReactElement`. Second argument is `true` if `item` should be highlighted |
+| AutoHighlight |  |
+| InputProps | |
+| IsItemSelectable | |
 | MenuStyle | |
+| OnChange | |
+| OnMenuVisibilityChange | |
+| OnSelect | |
+| Open | |
+| RenderInput | |
+| RenderMenu | |
+| SelectOnBlur | |
 | ShouldItemRender | |
-
-TODO: autoHighlight, isItemSelectable, onMenuVisibilityChange, open, renderInput, renderMenu, selectOnBlur,
-sortItems, wrapperProps, wrapperStyle
+| SortItems | |
+| Value | |
+| WrapperProps | |
+| WrapperStyle | |
 
 ```fs
 let render state dispatch = 
@@ -130,7 +151,6 @@ let render state dispatch =
 ```
 
 ## Issues
-- Remainder of original API needs implementing (see TODO above)
 - react-autocomplete doesn't itself appear to be maintained
 - Working around an issue in FunctionComponent that appears to lose F# metadata from properties
 passed through ReactJS (issue logged)
