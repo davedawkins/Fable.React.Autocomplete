@@ -1,9 +1,9 @@
-module Components.Flatpickr.Types
+module Components.Autocomplete.Types
 
 open System 
 
 type State = {
-    SelectedTime : DateTime 
+    SelectedItem : string
 }
 
-type Msg = UpdateSelectedTime of DateTime 
+type Msg = UpdateSelectedItem of string 

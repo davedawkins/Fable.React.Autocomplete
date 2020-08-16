@@ -4,16 +4,16 @@ open App.Types
 open Elmish
 
 let init() = 
-    let initFlatpickrState, initFlatpickrCmd = Components.Flatpickr.State.init()
+    let initAutocompleteState, initAutocompleteCmd = Components.Autocomplete.State.init()
     
     { CurrentPage = Introduction
-      Flatpickr = initFlatpickrState }, Cmd.batch [ Cmd.none ]
+      Autocomplete = initAutocompleteState }, Cmd.map AutocompleteMsg initAutocompleteCmd
 
 let update msg state = 
     match msg with 
     | View page -> { state with CurrentPage = page }, Cmd.none
-    | FlatpickrMsg msg -> 
-        let nextFlatpickrState, nextFlatpickrCmd = 
-            Components.Flatpickr.State.update msg state.Flatpickr 
-        let nextState = { state with Flatpickr = nextFlatpickrState }
-        nextState, Cmd.map FlatpickrMsg nextFlatpickrCmd
+    | AutocompleteMsg msg -> 
+        let nextAutocompleteState, nextAutocompleteCmd = 
+            Components.Autocomplete.State.update msg state.Autocomplete 
+        let nextState = { state with Autocomplete = nextAutocompleteState }
+        nextState, Cmd.map AutocompleteMsg nextAutocompleteCmd

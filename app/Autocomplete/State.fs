@@ -1,13 +1,13 @@
-module Components.Flatpickr.State
+module Components.Autocomplete.State
 
 open System
 open Elmish
-open Components.Flatpickr.Types
+open Components.Autocomplete.Types
 
-let init() = { SelectedTime = DateTime.Now }, Cmd.none
+let init() = { SelectedItem = ""}, Cmd.none
 
 let update msg state = 
     match msg with 
-    | UpdateSelectedTime time ->
-        let nextState = { state with SelectedTime = time }
+    | UpdateSelectedItem item ->
+        let nextState = { state with SelectedItem = item }
         nextState, Cmd.none

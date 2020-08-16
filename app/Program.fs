@@ -4,7 +4,6 @@ open Elmish
 open Elmish.React
 open Fable.Core.JsInterop
 importAll "bulma/css/bulma.css"
-importAll "flatpickr/dist/themes/material_green.css"
 importAll "highlight.js/styles/ocean.css"
 
 open App.State

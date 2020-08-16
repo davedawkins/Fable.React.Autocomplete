@@ -12,49 +12,38 @@ paket add Fable.React.Autocomplete --project /path/to/Project.fsproj
 ```
 npm install autocomplete react-autocomplete --save
 ```
-- You will also need css module loaders for Webpack because we are going to import the styles directly from npm `css-loader` and `style-loader`, install them :
-```
-npm install css-loader style-loader --save-dev
-```
-- Now from your Webpack, use the loaders:
-```
-{
-    test: /\.(sa|c)ss$/,
-    use: [
-        "style-loader",
-        "css-loader"
-    ]
-}
-```
 
 ## Usage 
 
 [Live Demo with examples](https://davedawkins.github.io/Fable.React.Autocomplete/)
 
 ```fs
-type State = { SelectedTime : DateTime }
+type State = { SelectedItem : string }
 
-type Msg = UpdateSelectedTime of DateTime 
+type Msg = UpdateSelectedItem of string 
 
-let init() = { SelectedTime = DateTime.Now }, Cmd.none
+let init() = { SelectedItem = "" }, Cmd.none
 
 let update msg state = 
     match msg with 
-    | UpdateSelectedTime time ->
-        let nextState = { state with SelectedTime = time }
+    | UpdateSelectedItem item ->
+        let nextState = { state with SelectedItem = item }
         nextState, Cmd.none
 
 let render state dispatch = 
-    Autocomplete.autocomplete 
-        [ Autocomplete.Value state.SelectedTime 
-          Autocomplete.OnChange (UpdateSelectedTime >> dispatch)
-          Autocomplete.ClassName "input" ]
+    AutoComplete.autocompleteBasic
+        { Items =
+                [ "99 Red Balloons"
+                "Are You Gonna Be My Girl"
+                "Are You Gonna Go My Way"
+                "Dakota"
+                "Thing Called Love"
+                "The Lemon Song"
+                "Black Dog"
+                "Immigrant Song"
+                "Whole Lotta Love"
+                "Whole Lotta Rosie" ]
+            Model = state.SelectedItem
+            Dispatch = UpdateSelectedItem >> dispatch }
 
-
-// Somewhere before you app starts
-// you must import the CSS theme
-
-importAll "autocomplete/dist/themes/material_green.css"
-
-// or any of the other themes in the dist directory of autocomplete
 ```
