@@ -116,7 +116,7 @@ type AutoCompleteProps<'Item> =
   | Items of 'Item array
   | RenderItem of ('Item -> bool -> ReactElement)
   | AutoHighlight of bool
-  | InputProps of obj
+  | InputProps of HTMLAttr list
   | IsItemSelectable of ('Item -> bool)
   | MenuStyle of CSSProp list
   | OnChange of (Browser.Types.Event -> string -> unit)
@@ -129,8 +129,8 @@ type AutoCompleteProps<'Item> =
   | ShouldItemRender of ('Item -> string -> bool)
   | SortItems of ('Item -> 'Item -> string -> int)
   | Value of string
-  | WrapperProps of obj
-  | WrapperStyle of obj
+  | WrapperProps of HTMLAttr list
+  | WrapperStyle of CSSProp list
 ```
 
 See original documentation for [react-autocomplete](https://github.com/reactjs/react-autocomplete) for a detailed
@@ -142,9 +142,9 @@ explanation of these configuration items. The following table discusses any F# a
 | Items | Array of `item` records |
 | RenderItem | Render `item` as a `ReactElement`. Second argument is `true` if `item` should be highlighted |
 | AutoHighlight |  |
-| InputProps | Properties for the <input> element. You'll need to pass an anonymous record for this. |
+| InputProps | Properties for the <input> element. List of HTMLAttr |
 | IsItemSelectable | |
-| MenuStyle | |
+| MenuStyle | Style properties for the menu. A list of CSSProp |
 | OnChange | |
 | OnMenuVisibilityChange | |
 | OnSelect | |
@@ -155,13 +155,11 @@ explanation of these configuration items. The following table discusses any F# a
 | ShouldItemRender | |
 | SortItems |  Compare function for Array.sort. string argument is current value |
 | Value | |
-| WrapperProps | You'll need to pass an anonymous record for this. |
-| WrapperStyle | This should be `CSSProp list` but is currently `obj`, so pass an anonymous record |
+| WrapperProps | List of HTMLAttr |
+| WrapperStyle | List of CSSProp |
 
 
 ## Issues
-- react-autocomplete doesn't itself appear to be maintained
+- `react-autocomplete` doesn't itself appear to be maintained
 - Working around an issue in FunctionComponent that appears to lose F# metadata from properties
-passed through ReactJS (issue logged)
-- menuStyle needs ZIndex=1 (or higher) to ensure the menu appears above other Elmish components. 
-- The design of `AutoCompleteProps` is heavily influenced on being able to pass through to JS with as little processing as possible, while trying to maintain a useful degree of type safety. I wanted `InputProps` to be a list of HTMLProp, but cannot see yet how to convert that to the POJO that `react-autocomplete` wants, so for now it's an `obj` :-( . You'll see a mix of lists and arrays. I prefer lists by default, but use arrays when it makes it "easier" to pass through to `react-autocomplete`
+passed through ReactJS (issue logged) - see `makeList` in Autocomplete.fs

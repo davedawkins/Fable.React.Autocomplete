@@ -45,7 +45,7 @@ let renderTemplate title description autocomplete code state =
         h3 [ ClassName "title is-3" ] [
             str title
         ]
-        p [] [ description ]
+        description
         div [ Style [ Margin "20px" ] ] [
             div [] [
                 label [ ClassName "label" ] [
@@ -108,7 +108,7 @@ let example2Options state dispatch = [
     OnSelect(UpdateSelectedItem >> dispatch)
     ShouldItemRender(fun item value -> item.Label.ToLower().Contains(value.ToLower()))
     OnChange(fun e v -> v |> UpdateSelectedItem |> dispatch)
-    InputProps {| ``class`` = "input is-primary" |} 
+    InputProps [ ClassName "input is-primary"; Placeholder "Choose a song" ]
     RenderItem(fun item highlight ->
         div [ Prop.Key <| item.Key // Keep React happy.
               Props.Style [ Background(if highlight then "gray" else "none") ] ] [
