@@ -143,7 +143,7 @@ let renderExample2 state dispatch =
           OnSelect(UpdateSelectedItem >> dispatch)
           ShouldItemRender(fun item value -> item.Label.ToLower().Contains(value.ToLower()))
           OnChange(fun e v -> v |> UpdateSelectedItem |> dispatch)
-          InputProps {| ``class`` = "input is-primary" |}  // Adds styling to <input>
+          InputProps [ ClassName "input is-primary"; Placeholder "Choose a song" ]  // Adds styling to <input>
           RenderItem(fun item highlight ->
               div [ Prop.Key <| item.Key // Keep React happy.
                     Props.Style [ Background(if highlight then "gray" else "none") ] ] [

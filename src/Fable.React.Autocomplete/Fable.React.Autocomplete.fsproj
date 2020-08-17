@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>Fable.React binding for Autocomplete  component</Description>
-    <PackageProjectUrl>https://github.com/DaveDawkins/Fable.React.Autocomplete</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/DaveDawkins/Fable.React.Autocompletes</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/DaveDawkins/Fable.React.Autocomplete/blob/master/LICENSE</PackageLicenseUrl>
+    <Description>Fable.React binding for Autocomplete component</Description>
+    <PackageProjectUrl>https://github.com/davedawkins/Fable.React.Autocomplete</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/davedawkins/Fable.React.Autocomplete</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/davedawkins/Fable.React.Autocomplete/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl></PackageIconUrl>
     <PackageTags>fsharp;fable</PackageTags>
     <Authors>Dave Dawkins</Authors>
