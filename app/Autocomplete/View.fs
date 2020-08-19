@@ -77,11 +77,11 @@ let renderExample1 (state:State) dispatch =
         Dispatch = UpdateSelectedItem >> dispatch 
       })
       """
-            AutoComplete.autocompleteBasic {
-              Items = songs
-              Model = state.SelectedItem
-              Dispatch = UpdateSelectedItem >> dispatch
-              }
+    AutoComplete.autocompleteBasic {
+      Items = songs
+      Model = state.SelectedItem
+      Dispatch = UpdateSelectedItem >> dispatch
+      }
       """
       state
 
@@ -90,8 +90,9 @@ let renderExample1a (state:State) dispatch =
       "Example #1a - Basic + Styling"
       (div [] [
         str """
-        We can make use of the ofBasic function to get the benefits of autoCompleteBasic, but then append 
-        more advanced style options. This example adds Bulma styling to the <input> record.
+        We can make use of the ofBasic function to get the benefits of autocompleteBasic, but then append 
+        more advanced style options to pass into the more advanced autocomplete function. 
+        This example adds Bulma styling to the <input> record.
         The ofBasic function takes a BasicProps record and converts it to a list of AutocompleteProps<string>
         properties.
         """
@@ -105,11 +106,13 @@ let renderExample1a (state:State) dispatch =
         }
       )
       """
-            AutoComplete.autocompleteBasic {
-              Items = songs // A string list
-              Model = state.SelectedItem
-              Dispatch = UpdateSelectedItem >> dispatch
-              }
+    AutoComplete.autocomplete <|
+        InputProps [ ClassName "input is-primary" ] ::
+        ofBasic { 
+            Items = songs
+            Model = state.SelectedItem
+            Dispatch = UpdateSelectedItem >> dispatch 
+        }
       """
       state
 
@@ -139,34 +142,32 @@ let renderExample2 state dispatch =
         (div [] [
             str "This uses the more advanced "
             slackCode "autocomplete"
-            str " function, provides access to the full API of the underlying react-autocomplete component"
+            str " function, providing access to the full API of the underlying react-autocomplete component"
             br []
             br []
-            str "From what I've been able to learn, the options shown in the Code block below are the minimum required "
-            str "to make autocomplete work acceptably. They also happen to be the defaults used by "
-            slackCode "autocompleteBasic"
-            str ", with the exception of "
-            slackCode "InputProps"
-            str "."
+            str """
+            Note how we're using a MenuItem as the data element for Items, and then handling the member fields
+            in GetItemValue, ShouldItemRender, RenderItem.
+                """
          ])
         (AutoComplete.autocomplete (example2Options state dispatch))
         """
-        type MenuItem = { Key: string; Label: string }
+    type MenuItem = { Key: string; Label: string }
 
-        Autocomplete.autocomplete [
-          Items (songs |> List.mapi (fun i v -> { Key = string i; Label = v }) |> List.toArray)
-          Value state.SelectedItem
-          GetItemValue(fun item -> item.Label)
-          OnSelect(UpdateSelectedItem >> dispatch)
-          ShouldItemRender(fun item value -> item.Label.ToLower().Contains(value.ToLower()))
-          OnChange(fun e v -> v |> UpdateSelectedItem |> dispatch)
-          InputProps [ ClassName "input is-primary"; Placeholder "Choose a song" ]  // Adds styling to <input>
-          RenderItem(fun item highlight ->
-              div [ Prop.Key <| item.Key // Keep React happy.
-                    Props.Style [ Background(if highlight then "gray" else "none") ] ] [
-                  str item.Label
-              ])
-        ]
+    Autocomplete.autocomplete [
+      Items (songs |> List.mapi (fun i v -> { Key = string i; Label = v }) |> List.toArray)
+      Value state.SelectedItem
+      GetItemValue(fun item -> item.Label)
+      OnSelect(UpdateSelectedItem >> dispatch)
+      ShouldItemRender(fun item value -> item.Label.ToLower().Contains(value.ToLower()))
+      OnChange(fun e v -> v |> UpdateSelectedItem |> dispatch)
+      InputProps [ ClassName "input is-primary"; Placeholder "Choose a song" ]  // Adds styling to <input>
+      RenderItem(fun item highlight ->
+          div [ Prop.Key <| item.Key // Keep React happy.
+                Props.Style [ Background(if highlight then "gray" else "none") ] ] [
+              str item.Label
+          ])
+    ]
         """
         state
 
@@ -231,6 +232,35 @@ let render (state: State) dispatch =
     div [] [
         h2 [ ClassName "title is-2" ] [
             str "Autocomplete Demo"
+        ]
+        p [] [
+            str "The following examples make use of these type definitions:"            
+        ]
+        div [] [ Common.highlight
+            """
+    let songs = [
+      "99 Red Balloons"
+      "Are You Gonna Be My Girl"
+      "Are You Gonna Go My Way"
+      "Black Dog"
+      "Dakota"
+      "Immigrant Song"
+      "Thing Called Love"
+      "The Lemon Song"
+      "Whole Lotta Love"
+      "Whole Lotta Rosie" 
+    ]
+
+    type State = {
+        SelectedItem : string
+        MenuVisible : bool option
+    }
+
+    type Msg = 
+        | UpdateSelectedItem of string 
+        | MenuVisibilityChanged of bool
+
+            """
         ]
         renderExample1 state dispatch
         hr []

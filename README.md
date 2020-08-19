@@ -1,8 +1,5 @@
 # Fable.React.Autocomplete [![Build Status](https://travis-ci.org/DaveDawkins/Fable.React.Autocomplete.svg?branch=master)](https://travis-ci.org/DaveDawkins/Fable.React.Autocomplete) [![Build status](https://ci.appveyor.com/api/projects/status/9ihe9vmw3k37u72r?svg=true)](https://ci.appveyor.com/project/DaveDawkins/fable-react-autocomplete) [![Nuget](https://img.shields.io/nuget/v/Fable.React.Autocomplete.svg?maxAge=0&colorB=brightgreen)](https://www.nuget.org/packages/Fable.React.Autocomplete)
 
-(v1.0.0 released. Still working on the docs and examples - Aug 17th 2020)
-(Very close to initial release - working on documentation and few kinks in code before pushing first pkg - Aug 16th 2020)
-
 A complete binding for [react-autocomplete](https://github.com/reactjs/react-autocomplete) that is ready to use within [Elmish](https://github.com/fable-elmish/elmish) applications
 
 ## Installation
@@ -137,7 +134,7 @@ type AutoCompleteProps<'Item> =
 See original documentation for [react-autocomplete](https://github.com/reactjs/react-autocomplete) for a detailed
 explanation of these configuration items. The following table discusses any F# aspects of their binding implementations.
 
-| AutoCompleteProp | Description                                                                                |
+| AutoCompleteProps | Description                                                                                |
 | ---------------- | ------------------------------------------------------------------------------------------ |
 | GetItemValue | Return the string value of the given `item` record |
 | Items | Array of `item` records |
@@ -159,6 +156,44 @@ explanation of these configuration items. The following table discusses any F# a
 | WrapperProps | List of HTMLAttr |
 | WrapperStyle | List of CSSProp |
 
+### ofBasic
+
+Use this to convert a `BasicProps` record into a list of `AutoCompleteProps`, to which you can append other `AutoCompleteProps`, such as `MenuStyle`, `InputProps`, `WrapperProps`, `WrapperStyle`.
+
+For example
+
+```fs
+    AutoComplete.autocomplete <|
+        InputProps [ ClassName "input is-primary" ] ::
+        ofBasic { 
+            Items = songs
+            Model = state.SelectedItem
+            Dispatch = UpdateSelectedItem >> dispatch 
+        }
+```
+
+The definition of `ofBasic` is as follows
+
+```fs
+let ofBasic (basicProps : BasicProps) = // BasicProps -> AutoCompleteProps<string>
+    let props = [
+      Items (List.toArray basicProps.Items)
+      RenderItem (fun item highlight -> 
+        div [
+                Prop.Key <| string item // Keep React happy.
+                Props.Style [ Background (if highlight then "gray" else "none") ] 
+            ] 
+            [ str item  ]
+      )
+      GetItemValue id
+      OnSelect basicProps.Dispatch
+      ShouldItemRender (fun item value -> item.ToLower().Contains( value.ToLower() ))
+      Value basicProps.Model
+      OnChange (fun e v -> v |> basicProps.Dispatch)
+    ]
+    props
+
+```
 
 ## Issues
 - `react-autocomplete` doesn't itself appear to be maintained
