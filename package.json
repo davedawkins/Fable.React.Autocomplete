@@ -24,7 +24,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.2.0",
     "@babel/runtime": "^7.2.0",
-    "css-loader": "^0.28.11",
+    "css-loader": "^3.4.2",
     "fable-compiler": "^2.2.3",
     "fable-loader": "^2.1.6",
     "gh-pages": "^1.1.0",

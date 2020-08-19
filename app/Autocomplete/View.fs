@@ -8,7 +8,7 @@ open Fable.Import
 open System
 open AutoComplete
 
-let items = [
+let songs = [
   "99 Red Balloons"
   "Are You Gonna Be My Girl"
   "Are You Gonna Go My Way"
@@ -72,24 +72,41 @@ let renderExample1 (state:State) dispatch =
         str " function, which minimises the amount of configuration required to get started."
       ])
       (AutoComplete.autocompleteBasic { 
-        Items = items
+        Items = songs
         Model = state.SelectedItem
         Dispatch = UpdateSelectedItem >> dispatch 
       })
       """
             AutoComplete.autocompleteBasic {
-              Items = [
-                  "99 Red Balloons"
-                  "Are You Gonna Be My Girl"
-                  "Are You Gonna Go My Way"
-                  "Black Dog"
-                  "Dakota"
-                  "Immigrant Song"
-                  "The Lemon Song"
-                  "Thing Called Love"
-                  "Whole Lotta Love"
-                  "Whole Lotta Rosie"
-                  ]
+              Items = songs
+              Model = state.SelectedItem
+              Dispatch = UpdateSelectedItem >> dispatch
+              }
+      """
+      state
+
+let renderExample1a (state:State) dispatch =
+    renderTemplate
+      "Example #1a - Basic + Styling"
+      (div [] [
+        str """
+        We can make use of the ofBasic function to get the benefits of autoCompleteBasic, but then append 
+        more advanced style options. This example adds Bulma styling to the <input> record.
+        The ofBasic function takes a BasicProps record and converts it to a list of AutocompleteProps<string>
+        properties.
+        """
+      ])
+      (AutoComplete.autocomplete <|
+        InputProps [ ClassName "input is-primary" ] ::
+        ofBasic { 
+            Items = songs
+            Model = state.SelectedItem
+            Dispatch = UpdateSelectedItem >> dispatch 
+        }
+      )
+      """
+            AutoComplete.autocompleteBasic {
+              Items = songs // A string list
               Model = state.SelectedItem
               Dispatch = UpdateSelectedItem >> dispatch
               }
@@ -102,7 +119,7 @@ let renderExample1 (state:State) dispatch =
 type MenuItem = { Key: string; Label: string }
 
 let example2Options state dispatch = [ 
-    Items (items |> List.mapi (fun i v -> { Key = string i; Label = v }) |> List.toArray)
+    Items (songs |> List.mapi (fun i v -> { Key = string i; Label = v }) |> List.toArray)
     Value state.SelectedItem
     GetItemValue(fun item -> item.Label)
     OnSelect(UpdateSelectedItem >> dispatch)
@@ -137,7 +154,7 @@ let renderExample2 state dispatch =
         type MenuItem = { Key: string; Label: string }
 
         Autocomplete.autocomplete [
-          Items (items |> List.mapi (fun i v -> { Key = string i; Label = v }) |> List.toArray)
+          Items (songs |> List.mapi (fun i v -> { Key = string i; Label = v }) |> List.toArray)
           Value state.SelectedItem
           GetItemValue(fun item -> item.Label)
           OnSelect(UpdateSelectedItem >> dispatch)
@@ -216,6 +233,8 @@ let render (state: State) dispatch =
             str "Autocomplete Demo"
         ]
         renderExample1 state dispatch
+        hr []
+        renderExample1a state dispatch
         hr []
         renderExample2 state dispatch
         hr []
