@@ -197,7 +197,6 @@ project.lock.json
 bundle.js
 bundle.js.map
 dist/*
-!dist/index.html
-
+**/*.fs.js
 .ionide
 package-lock.json
